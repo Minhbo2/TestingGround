@@ -75,6 +75,8 @@ protected:
 
 private:
 
+	bool HasBeenConquered = false;
+
 	AActor* TileNavMesh = nullptr;
 
 	void PositionNavMesh();
@@ -88,5 +90,9 @@ private:
 	AActor* PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition);
 
 	FSpawnPosition RandomSpawnPositions(FSpawnPosition SpawnPosition);
+
+
+	UFUNCTION(BlueprintCallable, Category = "Score")
+	void TileConquered();
 
 };

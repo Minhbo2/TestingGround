@@ -17,10 +17,15 @@ class TESTINGGROUND_API AInfiniteTerrainGM : public AGameMode
 public: 
 	AInfiniteTerrainGM();
 
-
-
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void PopulateBoundsVolume();
+
+
+	UFUNCTION(BlueprintCallable, Category = "Score")
+	void AddToScore();
+
+	UFUNCTION(BlueprintCallable, Category = "Score")
+	int32 GetScore() const;
 
 
 protected:
@@ -29,6 +34,8 @@ protected:
 	class UPoolActorComponent* PoolActor = nullptr;
 
 private:
+
+	int Score = 0;
 
 	void AddToPool(ANavMeshBoundsVolume *VolumeToAdd);
 };

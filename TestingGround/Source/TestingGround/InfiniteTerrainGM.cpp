@@ -40,3 +40,15 @@ void AInfiniteTerrainGM::AddToPool(ANavMeshBoundsVolume *VolumeToAdd)
 {
 	PoolActor->AddActorToPool(VolumeToAdd);
 }
+
+
+
+void AInfiniteTerrainGM::AddToScore()
+{
+	Score++;
+}
+
+int32 AInfiniteTerrainGM::GetScore() const
+{
+	return Score;
+}

@@ -6,6 +6,8 @@
 #include "PoolActorComponent.h"
 #include "Engine/World.h"
 #include "AI/Navigation/NavigationSystem.h"
+#include "../InfiniteTerrainGM.h"
+
 
 
 // Sets default values
@@ -178,6 +180,19 @@ AActor* ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosit
 		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		SpawnedActor->SetActorScale3D(FVector(SpawnPosition.Scale));
 		return SpawnedActor;
+}
+
+
+
+void ATile::TileConquered()
+{
+	if (!HasBeenConquered)
+	{
+		AInfiniteTerrainGM* CurrentGM = Cast<AInfiniteTerrainGM>(GetWorld()->GetAuthGameMode());
+		CurrentGM->AddToScore();
+		UE_LOG(LogTemp, Warning, TEXT("Score: %d"), CurrentGM->GetScore());
+		HasBeenConquered = true;
+	}
 }
 
 //END Config
