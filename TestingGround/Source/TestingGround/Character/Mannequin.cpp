@@ -67,6 +67,20 @@ void AMannequin::UnPossessed()
 {
 	Super::UnPossessed();
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+	
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(
+		Timer, 
+		this,
+		&AMannequin::OnTimerExpire,
+		DestroyOnDelay,
+		false
+	);
+}
+
+void AMannequin::OnTimerExpire()
+{
+	Destroy();
 }
 
 // Called every frame

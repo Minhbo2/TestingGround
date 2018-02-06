@@ -71,6 +71,12 @@ void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 // calculate values for SpawnPosition and pass it to placeactor
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition)
 {
+	if (ToSpawn == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Mission Actor to Spawn!"));
+		return;
+	}
+
 	int MinSpawn = SpawnPosition.MinSpawn;
 	int MaxSpawn = SpawnPosition.MaxSpawn;
 
@@ -85,6 +91,12 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPositio
 // spawning AI
 void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
 {
+	if (ToSpawn == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Mission Pawn to Spawn!"));
+		return;
+	}
+
 	int MinSpawn = SpawnPosition.MinSpawn;
 	int MaxSpawn = SpawnPosition.MaxSpawn;
 
@@ -92,6 +104,7 @@ void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPositio
 	{
 		FSpawnPosition NewSpawnPosition = RandomSpawnPositions(SpawnPosition);
 		APawn* AIPawn = Cast<APawn>(PlaceActor(ToSpawn, NewSpawnPosition));
+		if (AIPawn == nullptr) { return; }
 		AIPawn->Tags.Add(AITag);
 		if (!AIPawn->GetController())
 			AIPawn->SpawnDefaultController();
@@ -104,13 +117,12 @@ void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPositio
 FSpawnPosition ATile::RandomSpawnPositions(FSpawnPosition SpawnPosition)
 {
 	FSpawnPosition NewSpawnPosition;
-	int NumberToSpawn = FMath::RandRange(SpawnPosition.MinSpawn, SpawnPosition.MaxSpawn);
 
 	NewSpawnPosition.Scale = FMath::RandRange(SpawnPosition.MinScale, SpawnPosition.MaxScale);
 	bool Found = FindEmptyLocation(NewSpawnPosition.Location, SpawnPosition.Radius * NewSpawnPosition.Scale);
 	if (Found)
 		NewSpawnPosition.Rotation = FMath::RandRange(-180.f, 180.f);
-		
+
 	return NewSpawnPosition;
 }
 
@@ -176,6 +188,7 @@ AActor* ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosit
 {
 		AActor* SpawnedActor = GetWorld()->SpawnActor(ToSpawn);
 		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, false));
+		if (SpawnedActor == nullptr) { return nullptr; }
 		SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
 		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		SpawnedActor->SetActorScale3D(FVector(SpawnPosition.Scale));

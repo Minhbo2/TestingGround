@@ -42,6 +42,8 @@ protected:
 
 private:
 
+	float DestroyOnDelay = 3.f;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USkeletalMeshComponent* Mesh1P;
 
@@ -50,4 +52,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	AGun* Gun;
+
+	void OnTimerExpire();
 };
