@@ -54,4 +54,6 @@ private:
 	AGun* Gun;
 
 	void OnTimerExpire();
+
+	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 };

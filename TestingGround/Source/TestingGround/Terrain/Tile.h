@@ -91,8 +91,11 @@ private:
 
 	FSpawnPosition RandomSpawnPositions(FSpawnPosition SpawnPosition);
 
+	TArray<AActor*> AttachActors;
 
 	UFUNCTION(BlueprintCallable, Category = "Score")
 	void TileConquered();
 
+	UFUNCTION(BlueprintCallable, Category = "Cleaning")
+	void CleanTile();
 };

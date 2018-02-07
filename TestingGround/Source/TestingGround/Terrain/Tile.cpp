@@ -56,9 +56,12 @@ void ATile::PositionNavMesh()
 void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	PoolActorComp->Return(TileNavMesh);
+	CleanTile();
 }
 //END Config
 //============================================================
+
+
 
 
 
@@ -192,6 +195,7 @@ AActor* ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosit
 		SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
 		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		SpawnedActor->SetActorScale3D(FVector(SpawnPosition.Scale));
+		AttachActors.Add(SpawnedActor);
 		return SpawnedActor;
 }
 
@@ -206,6 +210,17 @@ void ATile::TileConquered()
 		UE_LOG(LogTemp, Warning, TEXT("Score: %d"), CurrentGM->GetScore());
 		HasBeenConquered = true;
 	}
+}
+
+
+// Garbage cleaning
+void ATile::CleanTile()
+{
+	if (AttachActors.Num() < 1)
+		return;
+
+	for (AActor* Actor: AttachActors)
+		Actor->Destroy();
 }
 
 //END Config

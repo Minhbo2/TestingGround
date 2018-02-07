@@ -78,10 +78,21 @@ void AMannequin::UnPossessed()
 	);
 }
 
+
 void AMannequin::OnTimerExpire()
 {
 	Destroy();
 }
+
+
+// Garbage cleaning here because OnTimerExpire only work for Player Pawn.
+void AMannequin::EndPlay(EEndPlayReason::Type EndPlayReason)
+{
+	// Tile only destroy AI Pawn but not their gun, so need to let the Pawn to do garbage cleaning as well
+	Gun->Destroy();
+}
+
+
 
 // Called every frame
 void AMannequin::Tick(float DeltaTime)
