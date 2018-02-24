@@ -190,8 +190,13 @@ bool ATile::IsLocationEmpty(FVector Location, float Radius)
 AActor* ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition)
 {
 		AActor* SpawnedActor = GetWorld()->SpawnActor(ToSpawn);
+		if (SpawnedActor == nullptr) 
+		{ 
+			UE_LOG(LogTemp, Warning, TEXT("[%s] has no actor: %s"), *(this->GetName()), *ToSpawn->GetName());
+			return nullptr; 
+		}
+
 		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, false));
-		if (SpawnedActor == nullptr) { return nullptr; }
 		SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
 		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		SpawnedActor->SetActorScale3D(FVector(SpawnPosition.Scale));

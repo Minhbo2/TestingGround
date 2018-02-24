@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/PlayerController.h"
 
 
 
@@ -35,7 +36,7 @@ AMannequin::AMannequin()
 void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 
 	if (BP_Gun == NULL) {
 		UE_LOG(LogTemp, Warning, TEXT("Gun blueprint missing."));
@@ -45,13 +46,10 @@ void AMannequin::BeginPlay()
 	Gun = GetWorld()->SpawnActor<AGun>(BP_Gun);
 	// IsPlayerController is a function deprived from APawn class to check if this character is being controlled by the player controller. 
 	if (IsPlayerControlled())
-	{
 		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); //Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
-	}
 	else
-	{
 		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
-	}
+
 	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
 	Gun->AnimInstance3P = GetMesh()->GetAnimInstance();
 

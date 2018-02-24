@@ -21,7 +21,7 @@ AGun::AGun()
 	FP_Gun->SetupAttachment(RootComponent);
 
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
-	if (!ensure(FP_MuzzleLocation)) { return; }
+	if (FP_MuzzleLocation == nullptr) { return; }
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
 	FP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
 }

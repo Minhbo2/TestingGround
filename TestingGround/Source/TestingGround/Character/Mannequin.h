@@ -42,7 +42,7 @@ protected:
 
 private:
 
-	float DestroyOnDelay = 3.f;
+	float DestroyOnDelay = 5.f;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USkeletalMeshComponent* Mesh1P;
